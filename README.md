@@ -13,6 +13,6 @@ El proyecto se divide en 3 partes:
 
 ## Colaboradores
 
-*Camila Castañeda
-*David Moreno
-*Diego Trejo
+* Camila Castañeda
+* David Moreno
+* Diego Trejo
