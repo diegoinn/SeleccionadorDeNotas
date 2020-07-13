@@ -7,9 +7,9 @@ seleccionar las noticias que puedan contener información acerca de Mega-proyect
 
 El proyecto se divide en 3 partes:
 
-  1.Crear "bots" que por medio de web-scrapping descarguen todas las notas de las publicaciones "impresas" de distintos periodicos (La Jornada y Reforma).
-  2.Por medio de Inteligencia Artificial y/o Machine Learning seleccionar las notas que puedan contener información sobre Meg-Proyectos de interes.
-  3.Guardar las notas seleccionadas en formato pdf y excel para poder ser revisadas por humanos y extraer la información pertinente.
+1.Crear "bots" que por medio de web-scrapping descarguen todas las notas de las publicaciones "impresas" de distintos periodicos (La Jornada y Reforma).
+2.Por medio de Inteligencia Artificial y/o Machine Learning seleccionar las notas que puedan contener información sobre Meg-Proyectos de interes.
+3.Guardar las notas seleccionadas en formato pdf y excel para poder ser revisadas por humanos y extraer la información pertinente.
 
 ## Colaboradores
 
