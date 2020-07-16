@@ -1,0 +1,16 @@
+  
+URL:
+  https://www.reforma.com/libre/online07/aplicacionEI/webview/iWebView.aspx?Coleccion=1066&folio=[Folio]
+
+----------Colección--------------
+Aun no sé qué es
+[Entero 1066]
+
+----------Folio------------------
+Identificador de todas las notas
+[Entero del 180985 al 2168542]
+
+Entre menor es el Folio se avanza a la siguiente página y a la fecha anterior.
+El Folio aumenta cada día: 16/07/2020 el último id es: 2168542
+Se infiere que el Folio 2168543 será la primera notas del 17/07/2020
+El Folio más bajo con Coleccion=1060 es: 180985
