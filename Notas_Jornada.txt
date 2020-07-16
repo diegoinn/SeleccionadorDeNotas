@@ -21,7 +21,3 @@ nota:
 	.inicial	#Letra inicial (no todas las notas lo usan)
 	<p>		#texto de parrafos (quitar html interior)
 
-
-
-edicion extra...
-
