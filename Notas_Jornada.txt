@@ -22,3 +22,6 @@ nota:
 	<p>		#texto de parrafos (quitar html interior)
 
 
+
+edicion extra...
+
