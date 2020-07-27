@@ -11,7 +11,8 @@ def DescargaNotas(links):
 		r=requests.get(link)
 		soup=BeautifulSoup(r.content,'lxml')
 		
-		titulo=soup.find('div',{'class':'cabeza'}).text
+		bloque_titulo=soup.find('div',{'class':'cabeza'})
+		titulo=bloque_titulo.text if bloque_titulo is not None else ''
 		
 		bloque_autor=soup.find('div',{'class':'credito-articulo'})
 
