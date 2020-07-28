@@ -8,8 +8,6 @@ import pandas as pd
 
 def ObtenLinksDiarios():
 	#Esta funcion va a regresar una lista de los links de las notas del dia
-
-
 	secciones=['edito','opinion','correo','politica','economia','mundo','estados','capital','ciencias','cultura','espectaculos','deportes']
 	links =list()
 	#variable fecha
@@ -38,7 +36,7 @@ def ObtenLinksDiarios():
 	        link = urldia+'/'+tagstring
 	        links.append(link)
 			
-	return links
+	return list(dict.fromkeys(links))
 
 
 def DescargaNotas(links):
