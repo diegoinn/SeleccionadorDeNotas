@@ -46,7 +46,7 @@ def DescargaNotas(links):
 	for link in links:
 
 		r=requests.get(link)
-		soup=BeautifulSoup(r.content,'lxml')
+		soup=BeautifulSoup(r.content,'html.parser')
 		
 		bloque_titulo=soup.find('div',{'class':'cabeza'})
 		titulo=bloque_titulo.text if bloque_titulo is not None else ''
