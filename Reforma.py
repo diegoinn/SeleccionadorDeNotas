@@ -1,4 +1,58 @@
 #Web-Scrapping Reforma
+def NotasReforma():
+	import os
+	import pandas as pd
+
+	#Reforma.VerificarNulos()
+	#os.remove("folioNulos.bin")
+
+	#GuardarUltimoFolio("2171511") 
+	folio=ObtenerPrimerFolio()
+	folioInt=int(folio)
+
+	contadorNulos=0;
+	flagFinal=0;
+	i=1;
+	folioTemp=folioInt;
+
+	articulos={'Titulo':[],'Autor':[],'Referencia':[],'Texto':[],'link':[]}
+
+	print("Ejecutando...")
+	while flagFinal == 0:
+		folioUrl=folioInt+i
+		i=i+1
+		url=CrearUrl(str(folioUrl))
+		nota=DescargarNota(url)
+		if nota["titulo"]=="None":
+			contadorNulos=contadorNulos+1
+			#print(contadorNulos)
+			GuardarNulo(folioUrl)
+		else:
+			if nota["titulo"]!="Error de conexión":
+				contadorNulos=0
+				folioTemp=folioUrl
+				articulos['Titulo'].append(nota["titulo"])
+				articulos['Autor'].append(nota["autor"])
+				articulos['Referencia'].append(nota["resumen"])
+				articulos['Texto'].append(nota["contenido"])
+				articulos['link'].append(url)
+				#print (articulos)
+
+		if contadorNulos>=50:
+			flagFinal=1
+
+		if nota["titulo"]=="Error de conexión":
+			flagFinal=1;
+			folioTemp=folioUrl-1
+
+		#print(nota["titulo"]+" -> "+nota["fechaSubida"]+" -> "+str(folioUrl))
+		#print(folioTemp)
+		#print("-------------------------------------------------------------------------------------------------")
+
+	GuardarUltimoFolio(str(folioTemp))
+	MemoriaNulos(folioTemp)
+	return pd.DataFrame(articulos)
+
 def VerificarNulos():
 	listaNulos = open("folioNulos.bin", "r")
 	lines = listaNulos.readlines()
@@ -91,7 +145,7 @@ def DescargarNota(link):
 				x = re.split("\s", NombreSeccion.group())
 				tempSeccion=x[3].replace('\'','')
 				NombreSeccion=tempSeccion.replace(';','')
-				print(NombreSeccion)
+				#print(NombreSeccion)
 			except:
 				NombreSeccion="None"
 				print("No Encontrada")
