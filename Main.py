@@ -22,3 +22,7 @@ tiempo=time.time()-ti
 # print(notas)
 
 print('\nSe tardó:',round(tiempo,2),'s para descargar',len(links),'Notas',round(tiempo/len(links),4),'s/Nota')
+
+#Se obtienen las notas de Reforma
+notasReforma=Reforma.NotasReforma()
+print (notasReforma)
