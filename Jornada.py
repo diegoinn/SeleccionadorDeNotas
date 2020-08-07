@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 import requests
 import pandas as pd
+import time
 
 
 def ObtenLinksDiarios():
@@ -39,12 +40,20 @@ def ObtenLinksDiarios():
 	return list(dict.fromkeys(links))
 
 
-def DescargaNotas(links):
+def DescargaNotas(links,imprime=True):
 	#esta regresa una tabla de panadas con todos los articulos que se pasen en un arreglo
 	#Titulo,autor,fecha,Articulo
 	articulos={'Titulo':[],'Autor':[],'Referencia':[],'Texto':[],'link':[]}
+	numNotas=len(links)
+	n=0
+	ti=time.time()
+	if imprime:
+		print('\nDescargando 0 de',numNotas)
 	for link in links:
-
+		if imprime:
+			t=round(time.time()-ti,2)
+			n+=1
+			print('Descargando',n,'de',numNotas,'\ttimepo',t,end='\r')
 		r=requests.get(link)
 		soup=BeautifulSoup(r.content,'html.parser')
 		
