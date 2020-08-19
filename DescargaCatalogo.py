@@ -39,7 +39,7 @@ for f in fechas:
             contraEjemplos=Notas_contra
         else:
             contraEjemplos=contraEjemplos.append(Notas_contra,ignore_index=True)
-        print(contraEjemplos)
+        # print(contraEjemplos)
 
 
 contraEjemplos.to_csv('Notas_contra_ejemplos.csv')
