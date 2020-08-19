@@ -7,10 +7,9 @@ import pandas as pd
 import time
 
 
+
 def ObtenLinksDiarios():
-	#Esta funcion va a regresar una lista de los links de las notas del dia
-	secciones=['edito','opinion','correo','politica','economia','mundo','estados','capital','ciencias','cultura','espectaculos','deportes']
-	links =list()
+	#Esta funcion va a regresar una lista de los links de las notas del dia actual
 	#variable fecha
 	ahora = str(datetime.datetime.now())
 	datosahora = ahora.split()
@@ -18,6 +17,12 @@ def ObtenLinksDiarios():
 	dia = fecha[2]
 	mes = fecha[1]
 	year = fecha[0]
+	return ObtenLinks(dia,mes,year)
+
+def ObtenLinks(dia,mes,year):
+	#Esta funcion va a regresar una lista de los links de las notas del dia deseado
+	secciones=['edito','opinion','correo','politica','economia','mundo','estados','capital','ciencias','cultura','espectaculos','deportes']
+	links =list()
 	#request por seccion del dia
 	for i in range(len(secciones)) :
 	    urldia = 'https://www.jornada.com.mx/'+ year+'/'+mes+'/'+dia
