@@ -45,6 +45,7 @@ print('\n\nEntrenando Modelo')
 Modelo.fit(X_train, y_train)
 
 predictions=Modelo.predict(X_test)
+
 print(metrics.confusion_matrix(y_test,predictions))
 print(metrics.classification_report(y_test,predictions))
 
