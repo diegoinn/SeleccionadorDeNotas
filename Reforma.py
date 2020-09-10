@@ -1,10 +1,9 @@
 #Web-Scrapping Reforma
 def NotasReforma():
-	import os
 	import pandas as pd
+	from datetime import date
 
-	#Reforma.VerificarNulos()
-	#os.remove("folioNulos.bin")
+	VerificarNulos()
 
 	#GuardarUltimoFolio("2171511") 
 	folio=ObtenerPrimerFolio()
@@ -45,15 +44,22 @@ def NotasReforma():
 			flagFinal=1;
 			folioTemp=folioUrl-1
 
-		#print(nota["titulo"]+" -> "+nota["fechaSubida"]+" -> "+str(folioUrl))
-		#print(folioTemp)
-		#print("-------------------------------------------------------------------------------------------------")
+		print(nota["titulo"]+" -> "+nota["fechaSubida"]+" -> "+str(folioUrl))
+		print(folioTemp)
+		print("-------------------------------------------------------------------------------------------------")
 
 	GuardarUltimoFolio(str(folioTemp))
 	MemoriaNulos(folioTemp)
-	return pd.DataFrame(articulos)
+	df=pd.DataFrame(articulos)
+	today = date.today()
+	d1 = today.strftime("%d-%m-%Y")
+	strEx='Historial/'+d1+'.xlsx'
+	df.to_excel(strEx)
+	return df
 
 def VerificarNulos():
+	import os
+	print("Verificando...")
 	listaNulos = open("folioNulos.bin", "r")
 	lines = listaNulos.readlines()
 	i=0
@@ -64,8 +70,9 @@ def VerificarNulos():
 		if nota["titulo"]!="None":
 			print(nota["titulo"]+" -> "+nota["fechaSubida"]+" -> "+lines[i])
 			contadorNulos=contadorNulos+1
-			print(contadorNulos)
 	listaNulos.close()
+	if contadorNulos==0:
+		os.remove("folioNulos.bin")
 
 def MemoriaNulos(folioTemp):
 	listaNulos = open("folioNulos.bin", "r")
@@ -148,7 +155,7 @@ def DescargarNota(link):
 				#print(NombreSeccion)
 			except:
 				NombreSeccion="None"
-				print("No Encontrada")
+				#print("No Encontrada")
 			finally:
 				match = soup.find('div', id = 'divTituloNota')
 				titulo =  match.text
