@@ -48,6 +48,7 @@ predictions=Modelo.predict(X_test)
 print(metrics.confusion_matrix(y_test,predictions))
 print(metrics.classification_report(y_test,predictions))
 
+# guardar modelo
 salir=False
 while(not salir):
     print('\n\nGuardar modelo? (y/n): ')
