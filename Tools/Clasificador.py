@@ -6,13 +6,27 @@ from sklearn import metrics
 import pandas as pd
 import json
 import pickle
+import spacy
+
+
+class LemmaTokenizer(object):
+    def __init__(self,nlp):
+        self.spacynlp = nlp
+
+    def __call__(self, doc):
+        nlpdoc = self.spacynlp(doc)
+        nlpdoc = [token.lemma_ for token in nlpdoc if (len(token.lemma_) > 1) or (token.lemma_.isalnum()) and not token.is_stop ]
+        return nlpdoc
 
 # se importan las bases ya descargadas y se des da el formato correcto
 
+
+nlp = spacy.load('es_core_news_md')
+
 print('\n\nLeyendo bases')
 
-ejemplos=pd.read_csv('Notas_Ejemplos.csv')
-c_ejemplos=pd.read_csv('Notas_Contra_Ejemplos.csv')
+ejemplos=pd.read_csv('Data/Notas_Ejemplos.csv')
+c_ejemplos=pd.read_csv('Data/Notas_Contra_Ejemplos.csv')
 
 ejemplos['etiqueta']=1
 c_ejemplos['etiqueta']=0
@@ -38,7 +52,8 @@ with open('Stop_Words.json',encoding='utf-8') as json_file:
 
 # Crea pipeline
 
-Modelo=Pipeline([('tfidf',TfidfVectorizer(stop_words=stop_words)),('svm',svm.SVC())])
+Modelo=Pipeline([('tfidf',TfidfVectorizer(tokenizer=LemmaTokenizer(nlp))),('svm',svm.LinearSVC())])
+# Modelo=Pipeline([('tfidf',TfidfVectorizer(stop_words=stop_words)),('svm',svm.SVC())])
 
 print('\n\nEntrenando Modelo')
 

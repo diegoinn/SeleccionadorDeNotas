@@ -44,6 +44,9 @@ def ObtenLinks(dia,mes,year):
 			
 	return list(dict.fromkeys(links))
 
+def DescargaNotasDiarias(imprime=False):
+	links = ObtenLinksDiarios()
+	return DescargaNotas(links,imprime=imprime)
 
 def DescargaNotas(links,imprime=True):
 	#esta regresa una tabla de panadas con todos los articulos que se pasen en un arreglo
@@ -59,6 +62,7 @@ def DescargaNotas(links,imprime=True):
 			t=round(time.time()-ti,2)
 			n+=1
 			print('Descargando',n,'de',numNotas,'\ttimepo',t,end='\r')
+
 		r=requests.get(link)
 		soup=BeautifulSoup(r.content,'html.parser')
 		
@@ -74,8 +78,8 @@ def DescargaNotas(links,imprime=True):
 		
 		if bloque_articulo is not None:
 			bloque_ref=bloque_articulo.find('div',{'class':'hemero'})
+			
 			ref=bloque_ref.text if bloque_ref is not None else ''
-
 
 			texto_articulo=''
 			
@@ -85,7 +89,6 @@ def DescargaNotas(links,imprime=True):
 
 			for parrafo in bloque_articulo.find_all('p'):
 				texto_articulo+=parrafo.text+'\n'
-
 
 			articulos['Titulo'].append(titulo)
 			articulos['Autor'].append(autor)
