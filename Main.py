@@ -4,6 +4,13 @@ import pickle
 import datetime
 import pandas as pd
 import sklearn
+import sklearn.pipeline
+import sklearn.feature_extraction
+import sklearn.utils._cython_blas
+import sklearn.neighbors.quad_tree
+import sklearn.neighbors._typedefs
+import sklearn.tree
+import sklearn.tree._utils
 
 hoy = datetime.datetime.now()
 
