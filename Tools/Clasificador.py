@@ -6,27 +6,26 @@ from sklearn import metrics
 import pandas as pd
 import json
 import pickle
-import spacy
 
 
-class LemmaTokenizer(object):
-    def __init__(self,nlp):
-        self.spacynlp = nlp
+# class LemmaTokenizer(object):
+#     def __init__(self,nlp):
+#         self.spacynlp = nlp
 
-    def __call__(self, doc):
-        nlpdoc = self.spacynlp(doc)
-        nlpdoc = [token.lemma_ for token in nlpdoc if (len(token.lemma_) > 1) or (token.lemma_.isalnum()) and not token.is_stop ]
-        return nlpdoc
+#     def __call__(self, doc):
+#         nlpdoc = self.spacynlp(doc)
+#         nlpdoc = [token.lemma_ for token in nlpdoc if (len(token.lemma_) > 1) or (token.lemma_.isalnum()) and not token.is_stop ]
+#         return nlpdoc
 
 # se importan las bases ya descargadas y se des da el formato correcto
 
 
-nlp = spacy.load('es_core_news_md')
+# nlp = spacy.load('es_core_news_md')
 
 print('\n\nLeyendo bases')
 
-ejemplos=pd.read_csv('Data/Notas_Ejemplos.csv')
-c_ejemplos=pd.read_csv('Data/Notas_Contra_Ejemplos.csv')
+ejemplos=pd.read_csv('../Data/Notas_Ejemplos.csv')
+c_ejemplos=pd.read_csv('../Data/Notas_Contra_Ejemplos.csv')
 
 ejemplos['etiqueta']=1
 c_ejemplos['etiqueta']=0
@@ -52,8 +51,8 @@ with open('Stop_Words.json',encoding='utf-8') as json_file:
 
 # Crea pipeline
 
-Modelo=Pipeline([('tfidf',TfidfVectorizer(tokenizer=LemmaTokenizer(nlp))),('svm',svm.LinearSVC())])
-# Modelo=Pipeline([('tfidf',TfidfVectorizer(stop_words=stop_words)),('svm',svm.SVC())])
+# Modelo=Pipeline([('tfidf',TfidfVectorizer(tokenizer=LemmaTokenizer(nlp))),('svm',svm.LinearSVC())])
+Modelo=Pipeline([('tfidf',TfidfVectorizer(stop_words=stop_words)),('svm',svm.SVC(probability=True))])
 
 print('\n\nEntrenando Modelo')
 
@@ -72,9 +71,9 @@ while(not salir):
     if respuesta=='y' or respuesta=='Y':
         print('\n\nNombre de modelo:')
         nombre=input()
-        with open(f'Models/{nombre}.pkl','wb') as file:
+        with open(f'../Models/{nombre}.pkl','wb') as file:
             pickle.dump(Modelo,file)
-        with open(f'Models/{nombre}_metrics.txt','w') as file:
+        with open(f'../Models/{nombre}_metrics.txt','w') as file:
             file.write(metrics.classification_report(y_test,predictions))
         salir=True
     elif respuesta=='n' or respuesta=='N':

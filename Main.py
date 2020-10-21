@@ -1,54 +1,49 @@
 from Tools import Jornada
 from Tools import Reforma
-import requests
-import time
-import re
-from bs4 import BeautifulSoup
+import pickle
+import datetime
+import pandas as pd
+import sklearn
 
-# ti=time.time()
+hoy = datetime.datetime.now()
 
-# links=Jornada.ObtenLinksDiarios()
-
-# tiempo=time.time()-ti
-
-# print('\nSe tardó',round(tiempo,2),'s en obtener los links')
+fecha = hoy.strftime('%Y_%m_%d')
 
 
-# ti=time.time()
+print('Descargando notas Jornada...')
+notas = Jornada.DescargaNotasDiarias(True)
 
-# notas=Jornada.DescargaNotas(links)
-# tiempo=time.time()-ti
+print('\n\nDescargando notas Reforma...')
+notasReforma = Reforma.NotasReforma(True)
 
+notas = notas.append(notasReforma, ignore_index=True)
 
+# notas.to_excel(f'Notas_{fecha}.xlsx')
+# notas= pd.read_excel('Notas_2020_10_20.xlsx')
 
-# print(notas)
+notas.drop(notas[notas.Texto.isnull()].index,inplace=True)
 
-# print('\nSe tardó:',round(tiempo,2),'s para descargar',len(links),'Notas',round(tiempo/len(links),4),'s/Nota')
+print('\n\nCargando Modelo...')
+modelo = None
+with open('Models/Modelo_3.pkl','rb') as f:
+    modelo = pickle.load(f)
+if modelo is not None:
+    prediccion=modelo.predict(notas.Texto)
+    modelo.probability = True
+    proba=modelo.predict_proba(notas.Texto)
 
+    # print(proba)
+    notas['Prediccion']=prediccion
+    notas['PrediccionEtiqueta']='No'
+    notas.loc[notas.Prediccion==1,'PrediccionEtiqueta']='Si'
 
-# link = Reforma.CrearUrl('2185603')
+    notas['Probabilidad_Si'],notas['Probabilidad_No'] = proba[:,1],proba[:,0]
 
-# folio=2186234
-# for i in range(1,1000):
-#     folio+=1
-#     link = Reforma.CrearUrl(str(folio))
-#     source = requests.get(link).text
-#     soup = BeautifulSoup(source, 'html.parser')
-#     titulo = soup.title.text if soup.title is not None else 'No Hay'
-#     patronFecha= re.compile(r'\d\d\d\d-\d\d-\d\d')  
-#     fechaSubida=patronFecha.findall(source)
-#     fecha = fechaSubida[0] if len(fechaSubida)>0 else 'No hay fecha'
-#     print(folio, titulo, fecha)
-# patronSeccion= re.compile(r'var NombreSeccion = (.*);')
-# NombreSeccion=patronSeccion.search(source)
-# x = re.split("\s", NombreSeccion.group())
-# tempSeccion=x[3].replace('\'','')
-# NombreSeccion=tempSeccion.replace(';','')
-# print(link)
+    notas=notas.sort_values(by='Prediccion',ascending=False)
 
-# with open('Nota.html','w') as f:
-#     f.write(source)
+    notas[['Titulo','Autor','Referencia','Texto','link','Prediccion','PrediccionEtiqueta','Probabilidad_Si','Probabilidad_No']].to_excel(f'Predicciones_{fecha}.xlsx',index=False)
+else:
+    print('Error: No se pudo cargar modelo.')
 
-# notasReforma = Reforma.NotasReforma(True)
-
-notasJornada = Jornada.DescargaNotasDiarias(True)
+print('\n\nPresiona enter para terminar.')
+input()
