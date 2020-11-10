@@ -55,18 +55,21 @@ def getFoliosDia(dia,mes,year):
 	return folios
 
 	
+def NotasReformaHoy(verbose=False):
+	if verbose:
+		print('Obteniendo Folios.')
+	folios = getFoliosHoy()
+	NotasReforma(folios,verbose)
 
-def NotasReforma(verbose=False):
+def NotasReforma(folios,verbose=False):
 	import pandas as pd
 	import datetime 
 
 	articulos={'Titulo':[],'Autor':[],'Referencia':[],'Texto':[],'link':[]}
-	if verbose:
-		print('Obteniendo Folios.')
-	folios = getFoliosHoy()
+	
 	numNotas = len(folios)
 	if verbose:
-		print(f'Descargando {numNotas} Notas.')
+		print(f'\nDescargando {numNotas} Notas.')
 	i=0
 	hoy = datetime.datetime.now()
 	fecha = hoy.strftime('%Y %m %d')

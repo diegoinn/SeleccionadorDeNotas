@@ -14,9 +14,9 @@ def ObtenLinksDiarios():
 	ahora = str(datetime.datetime.now())
 	datosahora = ahora.split()
 	fecha = datosahora[0].split('-')
-	dia = fecha[2]
-	mes = fecha[1]
-	year = fecha[0]
+	dia = int(fecha[2])
+	mes = int(fecha[1])
+	year = int(fecha[0])
 	return ObtenLinks(dia,mes,year)
 
 def ObtenLinks(dia,mes,year):
@@ -25,7 +25,7 @@ def ObtenLinks(dia,mes,year):
 	links =list()
 	#request por seccion del dia
 	for i in range(len(secciones)) :
-	    urldia = 'https://www.jornada.com.mx/'+ year+'/'+mes+'/'+dia
+	    urldia = F'https://www.jornada.com.mx/{year}/{mes:02}/{dia:02}'
 	    url = urldia+'/'+secciones[i]
 	    req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
 
